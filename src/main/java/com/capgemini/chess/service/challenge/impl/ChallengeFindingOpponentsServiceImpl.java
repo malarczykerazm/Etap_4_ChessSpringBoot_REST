@@ -10,8 +10,8 @@ import org.springframework.stereotype.Service;
 import com.capgemini.chess.dataaccess.dao.ProfileDAO;
 import com.capgemini.chess.dataaccess.dao.UserDAO;
 import com.capgemini.chess.exceptions.UserValidationException;
-import com.capgemini.chess.service.challenge.ChallengeValidationService;
 import com.capgemini.chess.service.challenge.ChallengeFindingOpponentsService;
+import com.capgemini.chess.service.challenge.ChallengeValidationService;
 import com.capgemini.chess.service.to.ProfileTO;
 import com.capgemini.chess.service.user.UserValidationService;
 
@@ -41,5 +41,4 @@ public class ChallengeFindingOpponentsServiceImpl implements ChallengeFindingOpp
 						&& challengeValidationService.isPotentialChallengeUnique(tO.getID(), p.getID())))
 				.limit(5).collect(Collectors.toList());
 	}
-
 }
