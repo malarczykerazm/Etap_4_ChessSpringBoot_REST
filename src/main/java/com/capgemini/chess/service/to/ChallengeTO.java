@@ -5,8 +5,8 @@ import com.capgemini.chess.enums.ChallengeStatus;
 public class ChallengeTO {
 
 	private Long challengeID;
-	private Long senderID;
-	private Long recieverID;
+	private ProfileTO sender;
+	private ProfileTO receiver;
 	private ChallengeStatus challengeStatus;
 
 	public Long getChallengeID() {
@@ -17,20 +17,20 @@ public class ChallengeTO {
 		this.challengeID = challengeID;
 	}
 
-	public Long getSenderID() {
-		return senderID;
+	public ProfileTO getSender() {
+		return sender;
 	}
 
-	public void setSenderID(Long senderID) {
-		this.senderID = senderID;
+	public void setSender(ProfileTO sender) {
+		this.sender = sender;
 	}
 
-	public Long getRecieverID() {
-		return recieverID;
+	public ProfileTO getReceiver() {
+		return receiver;
 	}
 
-	public void setRecieverID(Long recieverID) {
-		this.recieverID = recieverID;
+	public void setReceiver(ProfileTO receiver) {
+		this.receiver = receiver;
 	}
 
 	public ChallengeStatus getChallengeStatus() {
@@ -39,6 +39,35 @@ public class ChallengeTO {
 
 	public void setChallengeStatus(ChallengeStatus challengeStatus) {
 		this.challengeStatus = challengeStatus;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		ChallengeTO other = (ChallengeTO) obj;
+		if (challengeID == null) {
+			if (other.challengeID != null)
+				return false;
+		} else if (!challengeID.equals(other.challengeID))
+			return false;
+		if (challengeStatus != other.challengeStatus)
+			return false;
+		if (receiver == null) {
+			if (other.receiver != null)
+				return false;
+		} else if (!receiver.equals(other.receiver))
+			return false;
+		if (sender == null) {
+			if (other.sender != null)
+				return false;
+		} else if (!sender.equals(other.sender))
+			return false;
+		return true;
 	}
 
 }

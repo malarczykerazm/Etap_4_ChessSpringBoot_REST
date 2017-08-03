@@ -10,6 +10,4 @@ public interface UserDAO {
 
 	UserTO findByID(Long iD);
 
-	void initUsersAndProfiles();
-
 }

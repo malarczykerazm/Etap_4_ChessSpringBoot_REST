@@ -60,78 +60,22 @@ public class IntegrationTests {
 
 	@Before
 	public void setup() {
-		user1 = new UserTO();
-		profile1 = new ProfileTO();
-		profile1.setLevel(4);
-		user1.setProfile(profile1);
-		user1.setEmail("a1");
-		userDAO.save(user1);
-		user1.setID(userDAO.findByEmail("a1").getID());
-		profile1.setID(userDAO.findByEmail("a1").getID());
-
-		user2 = new UserTO();
-		profile2 = new ProfileTO();
-		profile2.setLevel(9);
-		user2.setProfile(profile2);
-		user2.setEmail("a2");
-		userDAO.save(user2);
-		user2.setID(userDAO.findByEmail("a2").getID());
-		profile2.setID(userDAO.findByEmail("a2").getID());
-
-		user3 = new UserTO();
-		profile3 = new ProfileTO();
-		profile3.setLevel(7);
-		user3.setProfile(profile3);
-		user3.setEmail("a3");
-		userDAO.save(user3);
-		user3.setID(userDAO.findByEmail("a3").getID());
-		profile3.setID(userDAO.findByEmail("a3").getID());
-
-		user4 = new UserTO();
-		profile4 = new ProfileTO();
-		profile4.setLevel(0);
-		user4.setProfile(profile4);
-		user4.setEmail("a4");
-		userDAO.save(user4);
-		user4.setID(userDAO.findByEmail("a4").getID());
-		profile4.setID(userDAO.findByEmail("a4").getID());
-
-		user5 = new UserTO();
-		profile5 = new ProfileTO();
-		profile5.setLevel(5);
-		user5.setProfile(profile5);
-		user5.setEmail("a5");
-		userDAO.save(user5);
-		user5.setID(userDAO.findByEmail("a5").getID());
-		profile5.setID(userDAO.findByEmail("a5").getID());
-
-		user6 = new UserTO();
-		profile6 = new ProfileTO();
-		profile6.setLevel(3);
-		user6.setProfile(profile6);
-		user6.setEmail("a6");
-		userDAO.save(user6);
-		user6.setID(userDAO.findByEmail("a6").getID());
-		profile6.setID(userDAO.findByEmail("a6").getID());
-
-		user7 = new UserTO();
-		profile7 = new ProfileTO();
-		profile7.setLevel(6);
-		user7.setProfile(profile7);
-		user7.setEmail("a7");
-		userDAO.save(user7);
-		user7.setID(userDAO.findByEmail("a7").getID());
-		profile7.setID(userDAO.findByEmail("a7").getID());
-
-		user8 = new UserTO();
-		profile8 = new ProfileTO();
-		profile8.setLevel(5);
-		user8.setProfile(profile8);
-		user8.setEmail("a8");
-		userDAO.save(user8);
-		user8.setID(userDAO.findByEmail("a8").getID());
-		profile8.setID(userDAO.findByEmail("a8").getID());
-
+		user1 = userDAO.findByID(1L);
+		profile1 = user1.getProfile();
+		user2 = userDAO.findByID(2L);
+		profile2 = user2.getProfile();
+		user3 = userDAO.findByID(3L);
+		profile3 = user3.getProfile();
+		user4 = userDAO.findByID(4L);
+		profile4 = user4.getProfile();
+		user5 = userDAO.findByID(5L);
+		profile5 = user5.getProfile();
+		user6 = userDAO.findByID(6L);
+		profile6 = user6.getProfile();
+		user7 = userDAO.findByID(7L);
+		profile7 = user7.getProfile();
+		user8 = userDAO.findByID(8L);
+		profile8 = user8.getProfile();
 	}
 
 	@Test
@@ -184,28 +128,28 @@ public class IntegrationTests {
 		// given
 
 		// when
-		multiPlayerFacade.initNewChallenge(user8.getID(), user1.getID());
+		multiPlayerFacade.initNewChallenge(user8.getProfile(), user1.getProfile());
 
 		// then
 		ChallengeTO expectedChallenge = new ChallengeTO();
-		expectedChallenge.setSenderID(user8.getID());
-		expectedChallenge.setRecieverID(user1.getID());
+		expectedChallenge.setSender(user8.getProfile());
+		expectedChallenge.setReceiver(user1.getProfile());
 		expectedChallenge.setChallengeStatus(ChallengeStatus.AWAITING);
 
-		Assert.assertEquals(expectedChallenge.getSenderID(),
-				challengeDAO.findByUserIDs(user8.getID(), user1.getID()).getSenderID());
-		Assert.assertEquals(expectedChallenge.getRecieverID(),
-				challengeDAO.findByUserIDs(user8.getID(), user1.getID()).getRecieverID());
+		Assert.assertEquals(expectedChallenge.getSender(),
+				challengeDAO.findByUserProfiles(user8.getProfile(), user1.getProfile()).getSender());
+		Assert.assertEquals(expectedChallenge.getReceiver(),
+				challengeDAO.findByUserProfiles(user8.getProfile(), user1.getProfile()).getReceiver());
 		Assert.assertEquals(expectedChallenge.getChallengeStatus(),
-				challengeDAO.findByUserIDs(user8.getID(), user1.getID()).getChallengeStatus());
+				challengeDAO.findByUserProfiles(user8.getProfile(), user1.getProfile()).getChallengeStatus());
 	}
 
 	@Test
 	public void shouldThrowAnExceptionDueToExistingChallenge() throws ChallengeValidationException {
 		// given
 		ChallengeTO existingChallenge = new ChallengeTO();
-		existingChallenge.setSenderID(user2.getID());
-		existingChallenge.setRecieverID(user8.getID());
+		existingChallenge.setSender(user2.getProfile());
+		existingChallenge.setReceiver(user8.getProfile());
 		existingChallenge.setChallengeStatus(ChallengeStatus.AWAITING);
 		challengeDAO.save(existingChallenge);
 
@@ -214,7 +158,7 @@ public class IntegrationTests {
 		e.expectMessage("awaiting");
 
 		// when
-		multiPlayerFacade.initNewChallenge(user8.getID(), user2.getID());
+		multiPlayerFacade.initNewChallenge(user8.getProfile(), user2.getProfile());
 
 		// then
 		// EXCEPTION

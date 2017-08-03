@@ -11,6 +11,7 @@ import com.capgemini.chess.dataaccess.dao.ChallengeDAO;
 import com.capgemini.chess.enums.ChallengeStatus;
 import com.capgemini.chess.service.challenge.ChallengeSearchService;
 import com.capgemini.chess.service.to.ChallengeTO;
+import com.capgemini.chess.service.to.ProfileTO;
 
 @Service
 @Scope("singleton")
@@ -20,8 +21,8 @@ public class ChallengesSearchServiceImpl implements ChallengeSearchService {
 	ChallengeDAO challengeDAO;
 
 	@Override
-	public List<ChallengeTO> findAwaitingChallenges(Long searcherID) {
-		return challengeDAO.findByOneOfUsersID(searcherID).stream()
+	public List<ChallengeTO> findAwaitingChallenges(ProfileTO searcher) {
+		return challengeDAO.findByOneOfUsers(searcher).stream()
 				.filter(ch -> ch.getChallengeStatus() == ChallengeStatus.AWAITING).collect(Collectors.toList());
 	}
 

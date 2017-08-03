@@ -19,7 +19,6 @@ public class UserRestController {
 
 	@RequestMapping(value = "/find", method = RequestMethod.GET)
 	public UserTO findUserByID(@RequestParam("iD") Long iD) throws UserValidationException {
-		userDAO.initUsersAndProfiles();
 		return userDAO.findByID(iD);
 	}
 

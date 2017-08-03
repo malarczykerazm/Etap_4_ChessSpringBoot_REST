@@ -8,8 +8,8 @@ public class ChallengeMapper {
 	public static ChallengeEntity map(ChallengeTO tO) {
 		ChallengeEntity entity = new ChallengeEntity();
 		entity.setChallengeID(tO.getChallengeID());
-		entity.setSenderID(tO.getSenderID());
-		entity.setRecieverID(tO.getRecieverID());
+		entity.setSender(tO.getSender());
+		entity.setReciever(tO.getReceiver());
 		entity.setChallengeStatus(tO.getChallengeStatus());
 		return entity;
 	}
@@ -17,8 +17,8 @@ public class ChallengeMapper {
 	public static ChallengeTO map(ChallengeEntity entity) {
 		ChallengeTO tO = new ChallengeTO();
 		tO.setChallengeID(entity.getChallengeID());
-		tO.setSenderID(entity.getSenderID());
-		tO.setRecieverID(entity.getRecieverID());
+		tO.setSender(entity.getSender());
+		tO.setReceiver(entity.getReceiver());
 		tO.setChallengeStatus(entity.getChallengeStatus());
 		return tO;
 	}

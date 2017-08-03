@@ -10,6 +10,7 @@ import com.capgemini.chess.service.challenge.ChallengeInitiationService;
 import com.capgemini.chess.service.challenge.ChallengeSaveService;
 import com.capgemini.chess.service.challenge.ChallengeValidationService;
 import com.capgemini.chess.service.to.ChallengeTO;
+import com.capgemini.chess.service.to.ProfileTO;
 
 @Service
 @Scope("singleton")
@@ -25,8 +26,8 @@ public class ChallengeInitiationServiceImpl implements ChallengeInitiationServic
 	ChallengeValidationService challengeValidation;
 
 	@Override
-	public ChallengeTO init(Long senderID, Long recieverID) throws ChallengeValidationException {
-		ChallengeTO challenge = challengeCreationService.create(senderID, recieverID);
+	public ChallengeTO init(ProfileTO sender, ProfileTO receiver) throws ChallengeValidationException {
+		ChallengeTO challenge = challengeCreationService.create(sender, receiver);
 		challengeValidation.validateChallenge(challenge);
 		return challengeSaveService.save(challenge);
 	}

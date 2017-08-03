@@ -12,6 +12,7 @@ import com.capgemini.chess.dataaccess.dao.ChallengeDAO;
 import com.capgemini.chess.dataaccess.entities.ChallengeEntity;
 import com.capgemini.chess.dataaccess.mapper.ChallengeMapper;
 import com.capgemini.chess.service.to.ChallengeTO;
+import com.capgemini.chess.service.to.ProfileTO;
 
 @Repository
 @Scope("singleton")
@@ -29,17 +30,17 @@ public class ChallengeDAOImpl implements ChallengeDAO {
 	}
 
 	@Override
-	public ChallengeTO findByUserIDs(Long senderID, Long recieverID) {
+	public ChallengeTO findByUserProfiles(ProfileTO sender, ProfileTO receiver) {
 		return challenges.values().stream().map(ch -> ChallengeMapper.map(ch))
-				.filter(ch -> (ch.getSenderID().equals(senderID) && ch.getRecieverID().equals(recieverID))
-						|| (ch.getSenderID().equals(recieverID) && ch.getRecieverID().equals(senderID)))
+				.filter(ch -> (ch.getSender().equals(sender) && ch.getReceiver().equals(receiver))
+						|| (ch.getSender().equals(receiver) && ch.getReceiver().equals(sender)))
 				.findFirst().orElse(null);
 	}
 
 	@Override
-	public List<ChallengeTO> findByOneOfUsersID(Long userID) {
+	public List<ChallengeTO> findByOneOfUsers(ProfileTO user) {
 		return challenges.values().stream().map(ch -> ChallengeMapper.map(ch))
-				.filter(ch -> ch.getSenderID().equals(userID) || ch.getRecieverID().equals(userID))
+				.filter(ch -> ch.getSender().equals(user) || ch.getReceiver().equals(user))
 				.collect(Collectors.toList());
 	}
 

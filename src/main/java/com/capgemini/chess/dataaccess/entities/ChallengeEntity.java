@@ -1,12 +1,13 @@
 package com.capgemini.chess.dataaccess.entities;
 
 import com.capgemini.chess.enums.ChallengeStatus;
+import com.capgemini.chess.service.to.ProfileTO;
 
 public class ChallengeEntity {
 
 	private Long challengeID;
-	private Long senderID;
-	private Long recieverID;
+	private ProfileTO sender;
+	private ProfileTO receiver;
 	private ChallengeStatus challengeStatus;
 
 	public Long getChallengeID() {
@@ -17,20 +18,20 @@ public class ChallengeEntity {
 		this.challengeID = challengeID;
 	}
 
-	public Long getSenderID() {
-		return senderID;
+	public ProfileTO getSender() {
+		return sender;
 	}
 
-	public void setSenderID(Long senderID) {
-		this.senderID = senderID;
+	public void setSender(ProfileTO sender) {
+		this.sender = sender;
 	}
 
-	public Long getRecieverID() {
-		return recieverID;
+	public ProfileTO getReceiver() {
+		return receiver;
 	}
 
-	public void setRecieverID(Long recieverID) {
-		this.recieverID = recieverID;
+	public void setReciever(ProfileTO receiver) {
+		this.receiver = receiver;
 	}
 
 	public ChallengeStatus getChallengeStatus() {

@@ -37,8 +37,7 @@ public class ChallengeFindingOpponentsServiceImpl implements ChallengeFindingOpp
 		userValidationService.validateID(tO.getID());
 
 		return profileDAO.findProfilesWithinLevelRange(tO.getLevel(), assumedLevelRange).stream()
-				.filter(p -> (p.getID() != tO.getID()
-						&& challengeValidationService.isPotentialChallengeUnique(tO.getID(), p.getID())))
+				.filter(p -> (p.getID() != tO.getID() && challengeValidationService.isPotentialChallengeUnique(tO, p)))
 				.limit(5).collect(Collectors.toList());
 	}
 }

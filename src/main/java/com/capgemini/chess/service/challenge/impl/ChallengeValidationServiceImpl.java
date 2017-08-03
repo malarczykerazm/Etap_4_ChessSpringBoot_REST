@@ -10,6 +10,7 @@ import com.capgemini.chess.enums.ChallengeStatus;
 import com.capgemini.chess.exceptions.ChallengeValidationException;
 import com.capgemini.chess.service.challenge.ChallengeValidationService;
 import com.capgemini.chess.service.to.ChallengeTO;
+import com.capgemini.chess.service.to.ProfileTO;
 
 @Service
 @Scope("singleton")
@@ -23,20 +24,20 @@ public class ChallengeValidationServiceImpl implements ChallengeValidationServic
 
 	@Override
 	public void validateChallenge(ChallengeTO tO) throws ChallengeValidationException {
-		if (null == profileDAO.findByID(tO.getSenderID())) {
+		if (null == profileDAO.findByID(tO.getSender().getID())) {
 			throw new ChallengeValidationException("There is no player considered to be sender of the challenge!");
 		}
-		if (null == profileDAO.findByID(tO.getRecieverID())) {
+		if (null == profileDAO.findByID(tO.getReceiver().getID())) {
 			throw new ChallengeValidationException("There is no player considered to be reciever of the challenge!");
 		}
-		if (!(this.isPotentialChallengeUnique(tO.getSenderID(), tO.getRecieverID()))) {
+		if (!(this.isPotentialChallengeUnique(tO.getSender(), tO.getReceiver()))) {
 			throw new ChallengeValidationException("Such a challenge is already awaiting!");
 		}
 	}
 
 	@Override
-	public boolean isPotentialChallengeUnique(Long senderID, Long recieverID) {
-		ChallengeTO challenge = challengeDAO.findByUserIDs(senderID, recieverID);
+	public boolean isPotentialChallengeUnique(ProfileTO sender, ProfileTO receiver) {
+		ChallengeTO challenge = challengeDAO.findByUserProfiles(sender, receiver);
 		if (null == challenge) {
 			return true;
 		}

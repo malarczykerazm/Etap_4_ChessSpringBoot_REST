@@ -23,6 +23,10 @@ public class UserDAOImpl implements UserDAO {
 	@Autowired
 	private ProfileDAO profileDAO;
 
+	public UserDAOImpl() {
+		this.initUsers();
+	}
+
 	@Override
 	public UserTO save(UserTO tO) {
 		UserEntity user = UserMapper.map(tO);
@@ -50,88 +54,78 @@ public class UserDAOImpl implements UserDAO {
 		return users.keySet().stream().max((i1, i2) -> i1.compareTo(i2)).orElse(0L) + 1;
 	}
 
-	@Override
-	public void initUsersAndProfiles() {
-		Long iD1 = generateID();
+	private void initUsers() {
 		UserTO user1 = new UserTO();
-		user1.setID(iD1);
+		user1.setID(1L);
 		user1.setEmail("a1");
 		ProfileTO profile1 = new ProfileTO();
-		profile1.setID(iD1);
+		profile1.setID(1L);
 		profile1.setLevel(4);
 		user1.setProfile(profile1);
-		profileDAO.save(profile1);
-		users.put(iD1, UserMapper.map(user1));
+		users.put(user1.getID(), UserMapper.map(user1));
 
-		Long iD2 = generateID();
 		UserTO user2 = new UserTO();
-		user2.setID(iD2);
+		user2.setID(2L);
 		user2.setEmail("a2");
 		ProfileTO profile2 = new ProfileTO();
-		profile2.setID(iD2);
+		profile2.setID(2L);
 		profile2.setLevel(9);
 		user2.setProfile(profile2);
-		profileDAO.save(profile2);
-		users.put(iD2, UserMapper.map(user2));
+		users.put(user2.getID(), UserMapper.map(user2));
 
-		Long iD3 = generateID();
 		UserTO user3 = new UserTO();
-		user3.setID(iD3);
+		user3.setID(3L);
 		user3.setEmail("a3");
 		ProfileTO profile3 = new ProfileTO();
-		profile3.setID(iD3);
+		profile3.setID(3L);
 		profile3.setLevel(7);
 		user3.setProfile(profile3);
-		profileDAO.save(profile3);
-		users.put(iD3, UserMapper.map(user3));
+		users.put(user3.getID(), UserMapper.map(user3));
 
-		Long iD4 = generateID();
 		UserTO user4 = new UserTO();
-		user4.setID(iD4);
+		user4.setID(4L);
 		user4.setEmail("a4");
 		ProfileTO profile4 = new ProfileTO();
-		profile4.setID(iD4);
+		profile4.setID(4L);
 		profile4.setLevel(0);
 		user4.setProfile(profile4);
-		profileDAO.save(profile4);
-		users.put(iD4, UserMapper.map(user4));
+		users.put(user4.getID(), UserMapper.map(user4));
 
-		Long iD5 = generateID();
 		UserTO user5 = new UserTO();
-		user5.setID(iD5);
+		user5.setID(5L);
 		user5.setEmail("a5");
 		ProfileTO profile5 = new ProfileTO();
-		profile5.setID(iD5);
+		profile5.setID(5L);
 		profile5.setLevel(5);
 		user5.setProfile(profile5);
-		profileDAO.save(profile5);
-		users.put(iD5, UserMapper.map(user5));
+		users.put(user5.getID(), UserMapper.map(user5));
 
-		// user6 = new UserTO();
-		// profile6 = new ProfileTO();
-		// profile6.setLevel(3);
-		// user6.setProfile(profile6);
-		// user6.setEmail("a6");
-		// userDAO.save(user6);
-		// user6.setID(userDAO.findByEmail("a6").getID());
-		// profile6.setID(userDAO.findByEmail("a6").getID());
-		//
-		// user7 = new UserTO();
-		// profile7 = new ProfileTO();
-		// profile7.setLevel(6);
-		// user7.setProfile(profile7);
-		// user7.setEmail("a7");
-		// userDAO.save(user7);
-		// user7.setID(userDAO.findByEmail("a7").getID());
-		// profile7.setID(userDAO.findByEmail("a7").getID());
-		//
-		// user8 = new UserTO();
-		// profile8 = new ProfileTO();
-		// profile8.setLevel(5);
-		// user8.setProfile(profile8);
-		// user8.setEmail("a8");
-		// userDAO.save(user8);
-		// user8.setID(userDAO.findByEmail("a8").getID());
-		// profile8.setID(userDAO.findByEmail("a8").getID());
+		UserTO user6 = new UserTO();
+		user6.setID(6L);
+		user6.setEmail("a6");
+		ProfileTO profile6 = new ProfileTO();
+		profile6.setID(6L);
+		profile6.setLevel(3);
+		user6.setProfile(profile6);
+		users.put(user6.getID(), UserMapper.map(user6));
+
+		UserTO user7 = new UserTO();
+		user7.setID(7L);
+		user7.setEmail("a7");
+		ProfileTO profile7 = new ProfileTO();
+		profile7.setID(7L);
+		profile7.setLevel(6);
+		user7.setProfile(profile7);
+		users.put(user7.getID(), UserMapper.map(user7));
+
+		UserTO user8 = new UserTO();
+		user8.setID(8L);
+		user8.setEmail("a8");
+		ProfileTO profile8 = new ProfileTO();
+		profile8.setID(8L);
+		profile8.setLevel(5);
+		user8.setProfile(profile8);
+		users.put(user8.getID(), UserMapper.map(user8));
+
 	}
 }

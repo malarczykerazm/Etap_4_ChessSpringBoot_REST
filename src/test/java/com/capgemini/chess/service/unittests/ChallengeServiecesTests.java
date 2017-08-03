@@ -34,7 +34,7 @@ import com.capgemini.chess.service.user.UserValidationService;
 public class ChallengeServiecesTests {
 
 	private Long senderID = 8L;
-	private Long recieverID = 5L;
+	private Long receiverID = 5L;
 	private ChallengeTO tO;
 	private ChallengeCreationService challengeCreation;
 
@@ -85,32 +85,52 @@ public class ChallengeServiecesTests {
 	public void challengeListSetup() {
 		challenge1 = new ChallengeTO();
 		challenge1.setChallengeID(1L);
-		challenge1.setSenderID(8L);
-		challenge1.setRecieverID(20L);
+		ProfileTO sender1 = new ProfileTO();
+		sender1.setID(8L);
+		ProfileTO receiver1 = new ProfileTO();
+		receiver1.setID(20L);
+		challenge1.setSender(sender1);
+		challenge1.setReceiver(receiver1);
 		challenge1.setChallengeStatus(ChallengeStatus.REJECTED);
 
 		challenge2 = new ChallengeTO();
 		challenge2.setChallengeID(2L);
-		challenge2.setSenderID(20L);
-		challenge2.setRecieverID(9L);
+		ProfileTO sender2 = new ProfileTO();
+		sender1.setID(20L);
+		ProfileTO receiver2 = new ProfileTO();
+		receiver1.setID(9L);
+		challenge2.setSender(sender2);
+		challenge2.setReceiver(receiver2);
 		challenge2.setChallengeStatus(ChallengeStatus.ACCEPTED);
 
 		challenge3 = new ChallengeTO();
 		challenge3.setChallengeID(3L);
-		challenge3.setSenderID(20L);
-		challenge3.setRecieverID(1L);
+		ProfileTO sender3 = new ProfileTO();
+		sender1.setID(20L);
+		ProfileTO receiver3 = new ProfileTO();
+		receiver1.setID(1L);
+		challenge3.setSender(sender3);
+		challenge3.setReceiver(receiver3);
 		challenge3.setChallengeStatus(ChallengeStatus.AWAITING);
 
 		challenge4 = new ChallengeTO();
 		challenge4.setChallengeID(4L);
-		challenge4.setSenderID(10L);
-		challenge4.setRecieverID(20L);
+		ProfileTO sender4 = new ProfileTO();
+		sender1.setID(10L);
+		ProfileTO receiver4 = new ProfileTO();
+		receiver1.setID(20L);
+		challenge4.setSender(sender4);
+		challenge4.setReceiver(receiver4);
 		challenge4.setChallengeStatus(ChallengeStatus.REJECTED);
 
 		challenge5 = new ChallengeTO();
 		challenge5.setChallengeID(5L);
-		challenge5.setSenderID(5L);
-		challenge5.setRecieverID(20L);
+		ProfileTO sender5 = new ProfileTO();
+		sender1.setID(5L);
+		ProfileTO receiver5 = new ProfileTO();
+		receiver1.setID(20L);
+		challenge5.setSender(sender5);
+		challenge5.setReceiver(receiver5);
 		challenge5.setChallengeStatus(ChallengeStatus.AWAITING);
 
 		challengesList = new ArrayList<>();
@@ -158,15 +178,17 @@ public class ChallengeServiecesTests {
 	public void shouldCreateNewChallengeWithoutAnID() {
 		// given
 		challengeCreation = new ChallengeCreationServiceImpl();
-		senderID = new Long(1);
-		recieverID = new Long(2);
+		ProfileTO sender = new ProfileTO();
+		sender.setID(1L);
+		ProfileTO receiver = new ProfileTO();
+		receiver.setID(2L);
 
 		// when
-		tO = challengeCreation.create(senderID, recieverID);
+		tO = challengeCreation.create(sender, receiver);
 
 		// then
-		Assert.assertEquals(new Long(1), tO.getSenderID());
-		Assert.assertEquals(new Long(2), tO.getRecieverID());
+		Assert.assertEquals(new Long(1), tO.getSender().getID());
+		Assert.assertEquals(new Long(2), tO.getReceiver().getID());
 		Assert.assertEquals(ChallengeStatus.AWAITING, tO.getChallengeStatus());
 		Assert.assertEquals(null, tO.getChallengeID());
 	}
@@ -178,14 +200,15 @@ public class ChallengeServiecesTests {
 		List<ChallengeTO> expectedList = new ArrayList<>();
 		expectedList.add(challenge3);
 		expectedList.add(challenge5);
-		Long searcherID = 20L;
+		ProfileTO searcher = new ProfileTO();
+		searcher.setID(20L);
 
 		// when
-		Mockito.when(challengeDAO.findByOneOfUsersID(searcherID)).thenReturn(challengesList);
+		Mockito.when(challengeDAO.findByOneOfUsers(searcher)).thenReturn(challengesList);
 
 		// then
-		Assert.assertEquals(expectedList, challengeSearchImpl.findAwaitingChallenges(searcherID));
-		Mockito.verify(challengeDAO).findByOneOfUsersID(searcherID);
+		Assert.assertEquals(expectedList, challengeSearchImpl.findAwaitingChallenges(searcher));
+		Mockito.verify(challengeDAO).findByOneOfUsers(searcher);
 	}
 
 	@Test
@@ -207,13 +230,13 @@ public class ChallengeServiecesTests {
 
 		Mockito.when(profileDAO.findProfilesWithinLevelRange(level, levelRange)).thenReturn(profilesList);
 		Mockito.doNothing().when(userValidation).validateID(tO.getID());
-		Mockito.when(challengeValidation.isPotentialChallengeUnique(tO.getID(), profile1.getID())).thenReturn(true);
-		Mockito.when(challengeValidation.isPotentialChallengeUnique(tO.getID(), profile2.getID())).thenReturn(true);
-		Mockito.when(challengeValidation.isPotentialChallengeUnique(tO.getID(), profile3.getID())).thenReturn(true);
-		Mockito.when(challengeValidation.isPotentialChallengeUnique(tO.getID(), profile4.getID())).thenReturn(true);
-		Mockito.when(challengeValidation.isPotentialChallengeUnique(tO.getID(), profile5.getID())).thenReturn(true);
-		Mockito.when(challengeValidation.isPotentialChallengeUnique(tO.getID(), profile6.getID())).thenReturn(true);
-		Mockito.when(challengeValidation.isPotentialChallengeUnique(tO.getID(), profile7.getID())).thenReturn(true);
+		Mockito.when(challengeValidation.isPotentialChallengeUnique(tO, profile1)).thenReturn(true);
+		Mockito.when(challengeValidation.isPotentialChallengeUnique(tO, profile2)).thenReturn(true);
+		Mockito.when(challengeValidation.isPotentialChallengeUnique(tO, profile3)).thenReturn(true);
+		Mockito.when(challengeValidation.isPotentialChallengeUnique(tO, profile4)).thenReturn(true);
+		Mockito.when(challengeValidation.isPotentialChallengeUnique(tO, profile5)).thenReturn(true);
+		Mockito.when(challengeValidation.isPotentialChallengeUnique(tO, profile6)).thenReturn(true);
+		Mockito.when(challengeValidation.isPotentialChallengeUnique(tO, profile7)).thenReturn(true);
 
 		// when
 		profilesList.add(profile1);
@@ -228,13 +251,13 @@ public class ChallengeServiecesTests {
 		Assert.assertEquals(expectedList, challengeFindingOpponentsImpl.findPotentialOpponents(tO, levelRange));
 		Mockito.verify(profileDAO).findProfilesWithinLevelRange(level, levelRange);
 		Mockito.verify(userValidation).validateID(tO.getID());
-		Mockito.verify(challengeValidation).isPotentialChallengeUnique(tO.getID(), profile1.getID());
-		Mockito.verify(challengeValidation).isPotentialChallengeUnique(tO.getID(), profile2.getID());
-		Mockito.verify(challengeValidation).isPotentialChallengeUnique(tO.getID(), profile3.getID());
-		Mockito.verify(challengeValidation).isPotentialChallengeUnique(tO.getID(), profile4.getID());
-		Mockito.verify(challengeValidation).isPotentialChallengeUnique(tO.getID(), profile5.getID());
-		Mockito.verify(challengeValidation, Mockito.never()).isPotentialChallengeUnique(tO.getID(), profile6.getID());
-		Mockito.verify(challengeValidation, Mockito.never()).isPotentialChallengeUnique(tO.getID(), profile7.getID());
+		Mockito.verify(challengeValidation).isPotentialChallengeUnique(tO, profile1);
+		Mockito.verify(challengeValidation).isPotentialChallengeUnique(tO, profile2);
+		Mockito.verify(challengeValidation).isPotentialChallengeUnique(tO, profile3);
+		Mockito.verify(challengeValidation).isPotentialChallengeUnique(tO, profile4);
+		Mockito.verify(challengeValidation).isPotentialChallengeUnique(tO, profile5);
+		Mockito.verify(challengeValidation, Mockito.never()).isPotentialChallengeUnique(tO, profile6);
+		Mockito.verify(challengeValidation, Mockito.never()).isPotentialChallengeUnique(tO, profile7);
 	}
 
 	@Test
@@ -254,9 +277,9 @@ public class ChallengeServiecesTests {
 
 		Mockito.when(profileDAO.findProfilesWithinLevelRange(level, levelRange)).thenReturn(profilesList);
 		Mockito.doNothing().when(userValidation).validateID(tO.getID());
-		Mockito.when(challengeValidation.isPotentialChallengeUnique(tO.getID(), profile1.getID())).thenReturn(true);
-		Mockito.when(challengeValidation.isPotentialChallengeUnique(tO.getID(), profile2.getID())).thenReturn(true);
-		Mockito.when(challengeValidation.isPotentialChallengeUnique(tO.getID(), profile3.getID())).thenReturn(true);
+		Mockito.when(challengeValidation.isPotentialChallengeUnique(tO, profile1)).thenReturn(true);
+		Mockito.when(challengeValidation.isPotentialChallengeUnique(tO, profile2)).thenReturn(true);
+		Mockito.when(challengeValidation.isPotentialChallengeUnique(tO, profile3)).thenReturn(true);
 
 		// when
 		profilesList.add(profile1);
@@ -271,48 +294,56 @@ public class ChallengeServiecesTests {
 		Assert.assertEquals(expectedList, challengeFindingOpponentsImpl.findPotentialOpponents(tO, levelRange));
 		Mockito.verify(profileDAO).findProfilesWithinLevelRange(level, levelRange);
 		Mockito.verify(userValidation).validateID(tO.getID());
-		Mockito.verify(challengeValidation).isPotentialChallengeUnique(tO.getID(), profile1.getID());
-		Mockito.verify(challengeValidation).isPotentialChallengeUnique(tO.getID(), profile2.getID());
-		Mockito.verify(challengeValidation).isPotentialChallengeUnique(tO.getID(), profile3.getID());
+		Mockito.verify(challengeValidation).isPotentialChallengeUnique(tO, profile1);
+		Mockito.verify(challengeValidation).isPotentialChallengeUnique(tO, profile2);
+		Mockito.verify(challengeValidation).isPotentialChallengeUnique(tO, profile3);
 	}
 
 	@Test
 	public void shouldValidateChallenge() throws ChallengeValidationException {
 		// given
+		ProfileTO sender = new ProfileTO();
+		sender.setID(senderID);
+		ProfileTO receiver = new ProfileTO();
+		receiver.setID(receiverID);
 		ChallengeTO tO = new ChallengeTO();
-		tO.setSenderID(senderID);
-		tO.setRecieverID(recieverID);
+		tO.setSender(sender);
+		tO.setReceiver(receiver);
 
 		ChallengeTO notAwaitingChallenge = new ChallengeTO();
 		notAwaitingChallenge.setChallengeStatus(ChallengeStatus.ACCEPTED);
 
-		Mockito.when(profileDAO.findByID(tO.getSenderID())).thenReturn(new ProfileTO());
-		Mockito.when(profileDAO.findByID(tO.getRecieverID())).thenReturn(new ProfileTO());
-		Mockito.when(challengeDAO.findByUserIDs(tO.getSenderID(), tO.getRecieverID())).thenReturn(notAwaitingChallenge);
+		Mockito.when(profileDAO.findByID(tO.getSender().getID())).thenReturn(new ProfileTO());
+		Mockito.when(profileDAO.findByID(tO.getReceiver().getID())).thenReturn(new ProfileTO());
+		Mockito.when(challengeDAO.findByUserProfiles(tO.getSender(), tO.getReceiver())).thenReturn(notAwaitingChallenge);
 
 		// when
 		challengeValidationImpl.validateChallenge(tO);
 
 		// then
-		Mockito.verify(profileDAO).findByID(tO.getSenderID());
-		Mockito.verify(profileDAO).findByID(tO.getRecieverID());
-		Mockito.verify(challengeDAO).findByUserIDs(tO.getSenderID(), tO.getRecieverID());
+		Mockito.verify(profileDAO).findByID(tO.getSender().getID());
+		Mockito.verify(profileDAO).findByID(tO.getReceiver().getID());
+		Mockito.verify(challengeDAO).findByUserProfiles(tO.getSender(), tO.getReceiver());
 		// NO EXCEPTION
 	}
 
 	@Test
 	public void shouldNotValidateChallengeDueToNoSenderID() throws ChallengeValidationException {
 		// given
+		ProfileTO sender = new ProfileTO();
+		sender.setID(senderID);
+		ProfileTO receiver = new ProfileTO();
+		receiver.setID(receiverID);
 		ChallengeTO tO = new ChallengeTO();
-		tO.setSenderID(senderID);
-		tO.setRecieverID(recieverID);
+		tO.setSender(sender);
+		tO.setReceiver(receiver);
 
 		ChallengeTO notAwaitingChallenge = new ChallengeTO();
 		notAwaitingChallenge.setChallengeStatus(ChallengeStatus.ACCEPTED);
 
-		Mockito.when(profileDAO.findByID(tO.getSenderID())).thenReturn(null);
-		Mockito.when(profileDAO.findByID(tO.getRecieverID())).thenReturn(new ProfileTO());
-		Mockito.when(challengeDAO.findByUserIDs(tO.getSenderID(), tO.getRecieverID())).thenReturn(notAwaitingChallenge);
+		Mockito.when(profileDAO.findByID(tO.getSender().getID())).thenReturn(null);
+		Mockito.when(profileDAO.findByID(tO.getReceiver().getID())).thenReturn(new ProfileTO());
+		Mockito.when(challengeDAO.findByUserProfiles(tO.getSender(), tO.getReceiver())).thenReturn(notAwaitingChallenge);
 
 		// expect
 		e.expect(ChallengeValidationException.class);
@@ -328,16 +359,20 @@ public class ChallengeServiecesTests {
 	@Test
 	public void shouldNotValidateChallengeDueToNoRecieverID() throws ChallengeValidationException {
 		// given
+		ProfileTO sender = new ProfileTO();
+		sender.setID(senderID);
+		ProfileTO receiver = new ProfileTO();
+		receiver.setID(receiverID);
 		ChallengeTO tO = new ChallengeTO();
-		tO.setSenderID(senderID);
-		tO.setRecieverID(recieverID);
+		tO.setSender(sender);
+		tO.setReceiver(receiver);
 
 		ChallengeTO notAwaitingChallenge = new ChallengeTO();
 
 		notAwaitingChallenge.setChallengeStatus(ChallengeStatus.ACCEPTED);
-		Mockito.when(profileDAO.findByID(tO.getSenderID())).thenReturn(new ProfileTO());
-		Mockito.when(profileDAO.findByID(tO.getRecieverID())).thenReturn(null);
-		Mockito.when(challengeDAO.findByUserIDs(tO.getSenderID(), tO.getRecieverID())).thenReturn(notAwaitingChallenge);
+		Mockito.when(profileDAO.findByID(tO.getSender().getID())).thenReturn(new ProfileTO());
+		Mockito.when(profileDAO.findByID(tO.getReceiver().getID())).thenReturn(null);
+		Mockito.when(challengeDAO.findByUserProfiles(tO.getSender(), tO.getReceiver())).thenReturn(notAwaitingChallenge);
 
 		// expect
 		e.expect(ChallengeValidationException.class);
@@ -353,16 +388,21 @@ public class ChallengeServiecesTests {
 	@Test
 	public void shouldNotValidateChallengeDueToUnuniqueChallenge() throws ChallengeValidationException {
 		// given
+		ProfileTO sender = new ProfileTO();
+		sender.setID(senderID);
+		ProfileTO receiver = new ProfileTO();
+		receiver.setID(receiverID);
 		ChallengeTO tO = new ChallengeTO();
-		tO.setSenderID(senderID);
-		tO.setRecieverID(recieverID);
+		tO.setSender(sender);
+		tO.setReceiver(receiver);
+		;
 
 		ChallengeTO awaitingChallenge = new ChallengeTO();
 
 		awaitingChallenge.setChallengeStatus(ChallengeStatus.AWAITING);
-		Mockito.when(profileDAO.findByID(tO.getSenderID())).thenReturn(new ProfileTO());
-		Mockito.when(profileDAO.findByID(tO.getRecieverID())).thenReturn(new ProfileTO());
-		Mockito.when(challengeDAO.findByUserIDs(tO.getSenderID(), tO.getRecieverID())).thenReturn(awaitingChallenge);
+		Mockito.when(profileDAO.findByID(tO.getSender().getID())).thenReturn(new ProfileTO());
+		Mockito.when(profileDAO.findByID(tO.getReceiver().getID())).thenReturn(new ProfileTO());
+		Mockito.when(challengeDAO.findByUserProfiles(tO.getSender(), tO.getReceiver())).thenReturn(awaitingChallenge);
 
 		// expect
 		e.expect(ChallengeValidationException.class);
