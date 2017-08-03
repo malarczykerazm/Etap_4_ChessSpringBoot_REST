@@ -11,7 +11,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import com.capgemini.chess.dataaccess.dao.UserDAO;
 import com.capgemini.chess.exceptions.UserValidationException;
-import com.capgemini.chess.service.to.ProfileTO;
+import com.capgemini.chess.service.to.UserTO;
 import com.capgemini.chess.service.user.impl.UserValidationServiceImpl;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -20,10 +20,10 @@ public class UserServiecesTests {
 	private Long iD;
 
 	@Mock
-	UserDAO userDAO;
+	private UserDAO userDAO;
 
 	@InjectMocks
-	UserValidationServiceImpl userValidation;
+	private UserValidationServiceImpl userValidation;
 
 	@Rule
 	public ExpectedException e = ExpectedException.none();
@@ -33,7 +33,7 @@ public class UserServiecesTests {
 		// given
 		iD = 8L;
 
-		Mockito.when(userDAO.findByID(iD)).thenReturn(new ProfileTO());
+		Mockito.when(userDAO.findByID(iD)).thenReturn(new UserTO());
 
 		// when
 		userValidation.validateID(iD);

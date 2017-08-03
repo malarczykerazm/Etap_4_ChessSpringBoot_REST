@@ -1,6 +1,5 @@
 package com.capgemini.chess.dataaccess.dao;
 
-import com.capgemini.chess.service.to.ProfileTO;
 import com.capgemini.chess.service.to.UserTO;
 
 public interface UserDAO {
@@ -9,6 +8,8 @@ public interface UserDAO {
 
 	UserTO findByEmail(String email);
 
-	ProfileTO findByID(Long iD);
+	UserTO findByID(Long iD);
+
+	void initUsersAndProfiles();
 
 }

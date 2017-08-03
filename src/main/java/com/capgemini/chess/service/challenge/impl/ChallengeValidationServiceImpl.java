@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 import com.capgemini.chess.dataaccess.dao.ChallengeDAO;
-import com.capgemini.chess.dataaccess.dao.UserDAO;
+import com.capgemini.chess.dataaccess.dao.ProfileDAO;
 import com.capgemini.chess.enums.ChallengeStatus;
 import com.capgemini.chess.exceptions.ChallengeValidationException;
 import com.capgemini.chess.service.challenge.ChallengeValidationService;
@@ -19,14 +19,14 @@ public class ChallengeValidationServiceImpl implements ChallengeValidationServic
 	private ChallengeDAO challengeDAO;
 
 	@Autowired
-	private UserDAO userDAO;
+	private ProfileDAO profileDAO;
 
 	@Override
 	public void validateChallenge(ChallengeTO tO) throws ChallengeValidationException {
-		if (null == userDAO.findByID(tO.getSenderID())) {
+		if (null == profileDAO.findByID(tO.getSenderID())) {
 			throw new ChallengeValidationException("There is no player considered to be sender of the challenge!");
 		}
-		if (null == userDAO.findByID(tO.getRecieverID())) {
+		if (null == profileDAO.findByID(tO.getRecieverID())) {
 			throw new ChallengeValidationException("There is no player considered to be reciever of the challenge!");
 		}
 		if (!(this.isPotentialChallengeUnique(tO.getSenderID(), tO.getRecieverID()))) {

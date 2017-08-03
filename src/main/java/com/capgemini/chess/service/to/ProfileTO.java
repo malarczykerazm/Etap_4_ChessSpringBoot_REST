@@ -11,8 +11,8 @@ public class ProfileTO {
 		return iD;
 	}
 
-	public void setID(Long id) {
-		this.iD = id;
+	public void setID(Long iD) {
+		this.iD = iD;
 	}
 
 	public String getName() {

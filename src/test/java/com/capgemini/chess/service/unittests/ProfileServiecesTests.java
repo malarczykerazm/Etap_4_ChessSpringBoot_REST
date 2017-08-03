@@ -20,10 +20,10 @@ public class ProfileServiecesTests {
 	private Long iD;
 
 	@Mock
-	ProfileDAO profileDAO;
+	private ProfileDAO profileDAO;
 
 	@InjectMocks
-	ProfileValidationServiceImpl profileValidation;
+	private ProfileValidationServiceImpl profileValidation;
 
 	@Rule
 	public ExpectedException e = ExpectedException.none();

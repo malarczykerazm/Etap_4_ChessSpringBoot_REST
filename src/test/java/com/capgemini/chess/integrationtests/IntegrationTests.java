@@ -35,7 +35,7 @@ public class IntegrationTests {
 	private MultiPlayerGameSetupAndPointsFacade multiPlayerFacade;
 
 	@Autowired
-	ChallengeDAO challengeDAO;
+	private ChallengeDAO challengeDAO;
 
 	@Rule
 	public ExpectedException e = ExpectedException.none();

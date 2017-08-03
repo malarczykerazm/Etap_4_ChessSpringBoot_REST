@@ -286,16 +286,16 @@ public class ChallengeServiecesTests {
 		ChallengeTO notAwaitingChallenge = new ChallengeTO();
 		notAwaitingChallenge.setChallengeStatus(ChallengeStatus.ACCEPTED);
 
-		Mockito.when(userDAO.findByID(tO.getSenderID())).thenReturn(new ProfileTO());
-		Mockito.when(userDAO.findByID(tO.getRecieverID())).thenReturn(new ProfileTO());
+		Mockito.when(profileDAO.findByID(tO.getSenderID())).thenReturn(new ProfileTO());
+		Mockito.when(profileDAO.findByID(tO.getRecieverID())).thenReturn(new ProfileTO());
 		Mockito.when(challengeDAO.findByUserIDs(tO.getSenderID(), tO.getRecieverID())).thenReturn(notAwaitingChallenge);
 
 		// when
 		challengeValidationImpl.validateChallenge(tO);
 
 		// then
-		Mockito.verify(userDAO).findByID(tO.getSenderID());
-		Mockito.verify(userDAO).findByID(tO.getRecieverID());
+		Mockito.verify(profileDAO).findByID(tO.getSenderID());
+		Mockito.verify(profileDAO).findByID(tO.getRecieverID());
 		Mockito.verify(challengeDAO).findByUserIDs(tO.getSenderID(), tO.getRecieverID());
 		// NO EXCEPTION
 	}
@@ -310,8 +310,8 @@ public class ChallengeServiecesTests {
 		ChallengeTO notAwaitingChallenge = new ChallengeTO();
 		notAwaitingChallenge.setChallengeStatus(ChallengeStatus.ACCEPTED);
 
-		Mockito.when(userDAO.findByID(tO.getSenderID())).thenReturn(null);
-		Mockito.when(userDAO.findByID(tO.getRecieverID())).thenReturn(new ProfileTO());
+		Mockito.when(profileDAO.findByID(tO.getSenderID())).thenReturn(null);
+		Mockito.when(profileDAO.findByID(tO.getRecieverID())).thenReturn(new ProfileTO());
 		Mockito.when(challengeDAO.findByUserIDs(tO.getSenderID(), tO.getRecieverID())).thenReturn(notAwaitingChallenge);
 
 		// expect
@@ -335,8 +335,8 @@ public class ChallengeServiecesTests {
 		ChallengeTO notAwaitingChallenge = new ChallengeTO();
 
 		notAwaitingChallenge.setChallengeStatus(ChallengeStatus.ACCEPTED);
-		Mockito.when(userDAO.findByID(tO.getSenderID())).thenReturn(new ProfileTO());
-		Mockito.when(userDAO.findByID(tO.getRecieverID())).thenReturn(null);
+		Mockito.when(profileDAO.findByID(tO.getSenderID())).thenReturn(new ProfileTO());
+		Mockito.when(profileDAO.findByID(tO.getRecieverID())).thenReturn(null);
 		Mockito.when(challengeDAO.findByUserIDs(tO.getSenderID(), tO.getRecieverID())).thenReturn(notAwaitingChallenge);
 
 		// expect
@@ -360,8 +360,8 @@ public class ChallengeServiecesTests {
 		ChallengeTO awaitingChallenge = new ChallengeTO();
 
 		awaitingChallenge.setChallengeStatus(ChallengeStatus.AWAITING);
-		Mockito.when(userDAO.findByID(tO.getSenderID())).thenReturn(new ProfileTO());
-		Mockito.when(userDAO.findByID(tO.getRecieverID())).thenReturn(new ProfileTO());
+		Mockito.when(profileDAO.findByID(tO.getSenderID())).thenReturn(new ProfileTO());
+		Mockito.when(profileDAO.findByID(tO.getRecieverID())).thenReturn(new ProfileTO());
 		Mockito.when(challengeDAO.findByUserIDs(tO.getSenderID(), tO.getRecieverID())).thenReturn(awaitingChallenge);
 
 		// expect

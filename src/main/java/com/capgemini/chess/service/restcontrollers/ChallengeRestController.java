@@ -9,8 +9,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.capgemini.chess.dataaccess.dao.ProfileDAO;
+import com.capgemini.chess.dataaccess.dao.UserDAO;
 import com.capgemini.chess.exceptions.UserValidationException;
-import com.capgemini.chess.service.challenge.ChallengeFindingOpponentsService;
+import com.capgemini.chess.service.facade.MultiPlayerGameSetupAndPointsFacade;
 import com.capgemini.chess.service.to.ProfileTO;
 
 @RestController
@@ -18,15 +19,19 @@ import com.capgemini.chess.service.to.ProfileTO;
 public class ChallengeRestController {
 
 	@Autowired
-	ProfileDAO profileDAO;
+	private ProfileDAO profileDAO;
 
 	@Autowired
-	private ChallengeFindingOpponentsService findOpponents;
+	private MultiPlayerGameSetupAndPointsFacade multiPlayerFacade;
+
+	@Autowired
+	private UserDAO userDAO;
 
 	@RequestMapping(value = "/findOpponents", method = RequestMethod.GET)
 	public List<ProfileTO> findPotentialOpponents(@RequestParam("searcherID") Long searcherID,
 			@RequestParam("range") int range) throws UserValidationException {
-		return findOpponents.findPotentialOpponents(profileDAO.findByID(searcherID), range);
+		userDAO.initUsersAndProfiles();
+		return multiPlayerFacade.findPotentialOpponents(profileDAO.findByID(searcherID), range);
 	}
 
 }
