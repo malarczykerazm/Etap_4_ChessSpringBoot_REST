@@ -1,4 +1,4 @@
-package com.capgemini.chess.service.restcontrollers;
+package com.capgemini.chess.service.rest;
 
 import java.util.List;
 
@@ -18,8 +18,8 @@ import com.capgemini.chess.service.to.ChallengeTO;
 import com.capgemini.chess.service.to.ProfileTO;
 
 @RestController
-@RequestMapping(value = "/challenges")
-public class ChallengeRestController {
+@RequestMapping(value = "/")
+public class MultiPlayerRestController {
 
 	@Autowired
 	private ProfileDAO profileDAO;
@@ -27,13 +27,13 @@ public class ChallengeRestController {
 	@Autowired
 	private MultiPlayerGameSetupAndPointsFacade multiPlayerFacade;
 
-	@RequestMapping(value = "/findOpponents", method = RequestMethod.GET)
+	@RequestMapping(value = "/challenges/findOpponents", method = RequestMethod.GET)
 	public List<ProfileTO> findPotentialOpponents(@RequestParam("searcherID") Long searcherID,
 			@RequestParam("range") int range) throws UserValidationException {
 		return multiPlayerFacade.findPotentialOpponents(profileDAO.findByID(searcherID), range);
 	}
 
-	@RequestMapping(value = "/init", method = RequestMethod.POST)
+	@RequestMapping(value = "/challenges/init", method = RequestMethod.POST)
 	public ChallengeTO initNewChallenge(@RequestBody ProfileTO[] senderAndReceiver)
 			throws ChallengeValidationException, WrongNumberOfParametersException {
 		if (senderAndReceiver.length > 2) {
@@ -44,4 +44,15 @@ public class ChallengeRestController {
 		}
 		return multiPlayerFacade.initNewChallenge(senderAndReceiver[0], senderAndReceiver[1]);
 	}
+
+	@RequestMapping(value = "/challenges/findAwaiting", method = RequestMethod.POST)
+	public List<ChallengeTO> findAwaitingChallenges(@RequestBody ProfileTO searcher) {
+		return multiPlayerFacade.findAwaitingChallenges(searcher);
+	}
+
+	@RequestMapping(value = "/profiles/check", method = RequestMethod.GET)
+	public ProfileTO checkProfile(@RequestParam("id") Long iD) {
+		return multiPlayerFacade.checkProfile(iD);
+	}
+
 }

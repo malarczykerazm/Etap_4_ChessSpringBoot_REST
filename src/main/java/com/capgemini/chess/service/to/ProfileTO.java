@@ -48,6 +48,18 @@ public class ProfileTO {
 	}
 
 	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((aboutMe == null) ? 0 : aboutMe.hashCode());
+		result = prime * result + ((iD == null) ? 0 : iD.hashCode());
+		result = prime * result + level;
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result + ((surname == null) ? 0 : surname.hashCode());
+		return result;
+	}
+
+	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;

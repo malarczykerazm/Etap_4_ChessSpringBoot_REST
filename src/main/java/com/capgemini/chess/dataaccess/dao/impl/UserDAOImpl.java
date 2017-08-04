@@ -150,6 +150,6 @@ public class UserDAOImpl implements UserDAO {
 		profile8.setLevel(5);
 		user8.setProfile(profile8);
 		users.put(user8.getID(), UserMapper.map(user8));
-
 	}
+
 }
