@@ -1,10 +1,10 @@
 package com.capgemini.chess.exceptions;
 
-public abstract class BusinessEexception extends Exception {
+public abstract class BusinessException extends Exception {
 
 	private static final long serialVersionUID = 1L;
 
-	public BusinessEexception(String message) {
+	public BusinessException(String message) {
 		super(message);
 	}
 }

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.capgemini.chess.dataaccess.dao.ProfileDAO;
 import com.capgemini.chess.exceptions.ChallengeValidationException;
 import com.capgemini.chess.exceptions.UserValidationException;
+import com.capgemini.chess.exceptions.WrongNumberOfParametersException;
 import com.capgemini.chess.service.facade.MultiPlayerGameSetupAndPointsFacade;
 import com.capgemini.chess.service.to.ChallengeTO;
 import com.capgemini.chess.service.to.ProfileTO;
@@ -33,8 +34,14 @@ public class ChallengeRestController {
 	}
 
 	@RequestMapping(value = "/init", method = RequestMethod.POST)
-	public ChallengeTO initNewChallenge(@RequestBody ProfileTO sender, @RequestBody ProfileTO receiver)
-			throws ChallengeValidationException {
-		return multiPlayerFacade.initNewChallenge(sender, receiver);
+	public ChallengeTO initNewChallenge(@RequestBody ProfileTO[] senderAndReceiver)
+			throws ChallengeValidationException, WrongNumberOfParametersException {
+		if (senderAndReceiver.length > 2) {
+			throw new WrongNumberOfParametersException("To many parameters provided. Two ProfileTOs expected.");
+		}
+		if (senderAndReceiver.length < 2) {
+			throw new WrongNumberOfParametersException("To few parameters provided. Two ProfileTOs expected.");
+		}
+		return multiPlayerFacade.initNewChallenge(senderAndReceiver[0], senderAndReceiver[1]);
 	}
 }
