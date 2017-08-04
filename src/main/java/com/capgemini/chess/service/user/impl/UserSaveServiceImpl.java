@@ -16,7 +16,7 @@ public class UserSaveServiceImpl implements UserSaveService {
 	private UserDAO userDao;
 
 	@Override
-	public UserTO save(UserTO to) {
-		return userDao.save(to);
+	public UserTO save(UserTO tO) {
+		return userDao.save(tO);
 	}
 }

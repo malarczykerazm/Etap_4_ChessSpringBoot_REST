@@ -15,7 +15,7 @@ import com.capgemini.chess.service.to.UserTO;
 import com.capgemini.chess.service.user.impl.UserValidationServiceImpl;
 
 @RunWith(MockitoJUnitRunner.class)
-public class UserServiecesTests {
+public class UserValidationServieceTest {
 
 	private Long iD;
 
@@ -60,4 +60,5 @@ public class UserServiecesTests {
 		// then
 		// EXCEPTION
 	}
+
 }

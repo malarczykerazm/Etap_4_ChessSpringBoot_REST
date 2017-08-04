@@ -15,7 +15,7 @@ import com.capgemini.chess.service.profile.impl.ProfileValidationServiceImpl;
 import com.capgemini.chess.service.to.ProfileTO;
 
 @RunWith(MockitoJUnitRunner.class)
-public class ProfileServiecesTests {
+public class ProfileValidationServieceTest {
 
 	private Long iD;
 
