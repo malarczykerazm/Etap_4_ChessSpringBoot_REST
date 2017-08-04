@@ -47,4 +47,38 @@ public class ProfileTO {
 		this.level = level;
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		ProfileTO other = (ProfileTO) obj;
+		if (aboutMe == null) {
+			if (other.aboutMe != null)
+				return false;
+		} else if (!aboutMe.equals(other.aboutMe))
+			return false;
+		if (iD == null) {
+			if (other.iD != null)
+				return false;
+		} else if (!iD.equals(other.iD))
+			return false;
+		if (level != other.level)
+			return false;
+		if (name == null) {
+			if (other.name != null)
+				return false;
+		} else if (!name.equals(other.name))
+			return false;
+		if (surname == null) {
+			if (other.surname != null)
+				return false;
+		} else if (!surname.equals(other.surname))
+			return false;
+		return true;
+	}
+
 }

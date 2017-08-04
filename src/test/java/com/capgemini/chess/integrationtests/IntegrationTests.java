@@ -84,23 +84,17 @@ public class IntegrationTests {
 		int levelRange = 2;
 
 		// when
-		List<ProfileTO> list = multiPlayerFacade.findPotentialOpponents(user8.getProfile(), levelRange);
-		List<Long> actualIDList = new ArrayList<>();
-		actualIDList.add(list.get(0).getID());
-		actualIDList.add(list.get(1).getID());
-		actualIDList.add(list.get(2).getID());
-		actualIDList.add(list.get(3).getID());
-		actualIDList.add(list.get(4).getID());
+		List<ProfileTO> actualList = multiPlayerFacade.findPotentialOpponents(user8.getProfile(), levelRange);
 
 		// then
-		List<Long> expectedIDList = new ArrayList<>();
-		expectedIDList.add(profile1.getID());
-		expectedIDList.add(profile3.getID());
-		expectedIDList.add(profile5.getID());
-		expectedIDList.add(profile6.getID());
-		expectedIDList.add(profile7.getID());
+		List<ProfileTO> expectedIDList = new ArrayList<>();
+		expectedIDList.add(profile1);
+		expectedIDList.add(profile3);
+		expectedIDList.add(profile5);
+		expectedIDList.add(profile6);
+		expectedIDList.add(profile7);
 
-		Assert.assertEquals(expectedIDList, actualIDList);
+		Assert.assertEquals(expectedIDList, actualList);
 	}
 
 	@Test

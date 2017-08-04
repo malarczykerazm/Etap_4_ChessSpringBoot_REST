@@ -42,6 +42,17 @@ public class ChallengeTO {
 	}
 
 	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((challengeID == null) ? 0 : challengeID.hashCode());
+		result = prime * result + ((challengeStatus == null) ? 0 : challengeStatus.hashCode());
+		result = prime * result + ((receiver == null) ? 0 : receiver.hashCode());
+		result = prime * result + ((sender == null) ? 0 : sender.hashCode());
+		return result;
+	}
+
+	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
