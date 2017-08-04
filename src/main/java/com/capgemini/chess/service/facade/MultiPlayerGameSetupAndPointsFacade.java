@@ -25,13 +25,14 @@ public interface MultiPlayerGameSetupAndPointsFacade {
 	 *            Profile Transfer Object of the searching user.
 	 * @param range
 	 *            Assumed level range.
-	 * @return List of 5 potential opponent.
+	 * @return List of 5 (or less) potential opponent.
 	 * @throws UserValidationException
 	 *             Thrown in case of not existing ID of the searcher.
 	 */
 	List<ProfileTO> findPotentialOpponents(ProfileTO tO, int range) throws UserValidationException;
 
 	/**
+	 * The method initializes a new challenge between provided competitors.
 	 * 
 	 * @param sender
 	 *            Profile Transfer Object of the sender.
@@ -49,7 +50,7 @@ public interface MultiPlayerGameSetupAndPointsFacade {
 	 * The method allows to find all awaiting challenges of a particular user.
 	 * 
 	 * @param searcherID
-	 *            ID of the user.
+	 *            Searcher's Transfer Object.
 	 * @return List of awaiting challenges.
 	 */
 	List<ChallengeTO> findAwaitingChallenges(ProfileTO searcher);
