@@ -1,4 +1,4 @@
-package com.capgemini.chess.service.unittests;
+package com.capgemini.chess.service.challengeserviecestests;
 
 import java.util.ArrayList;
 import java.util.List;

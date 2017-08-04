@@ -1,4 +1,4 @@
-package com.capgemini.chess.service.unittests;
+package com.capgemini.chess.service.userserviecestests;
 
 import org.junit.Rule;
 import org.junit.Test;
